@@ -2,38 +2,65 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Site Escolar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guia do Estudante</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <div class="top-bar">
+  <header class="top-bar">
     <img src="https://i.im.ge/2025/04/11/pVTi0z.logo.png" alt="logo" />
     <h1>Guia do Estudante</h1>
-  </div>
+  </header>
 
-  <div class="app">
-    <div class="tela ativo" id="tela-inicial">
-      <h1>Tela Inicial</h1>
+  <main class="app">
+    <section class="tela ativo" id="tela-selecao">
+      <h1>Selecione seu curso</h1>
+
+      <label for="curso">Curso:</label>
+      <select id="curso" class="campo">
+        <option value="" disabled selected>Escolha o curso</option>
+        <option>Informática</option>
+        <option>Análises Clínicas</option>
+        <option>Nutrição</option>
+        <option>Edificações</option>
+        <option>Química</option>
+        <option>Meio Ambiente</option>
+      </select>
+
+      <label for="ano">Ano:</label>
+      <select id="ano" class="campo">
+        <option value="" disabled selected>Selecione o ano</option>
+        <option>1º Ano</option>
+        <option>2º Ano</option>
+        <option>3º Ano</option>
+      </select>
+
+      <button class="btn" onclick="entrar()">Entrar</button>
+    </section>
+
+    <section class="tela" id="tela-inicial">
+      <h1 id="info-aluno">Menu Principal</h1>
       <button class="btn" onclick="mudarTela('calendario')">Calendário</button>
       <button class="btn" onclick="mudarTela('assuntos')">Assuntos</button>
       <button class="btn" onclick="mudarTela('anexos')">Anexos</button>
       <button class="btn" onclick="mudarTela('professores')">Professores</button>
-    </div>
+      <button class="btn voltar" onclick="mudarTela('selecao')">← Trocar Curso</button>
+    </section>
 
-    <div class="tela" id="tela-calendario">
+    <section class="tela" id="tela-calendario">
       <h1>Calendário de Provas</h1>
-      <div class="data">16/07 - Matemática</div>
-      <p>Assunto: Equações do 2º grau</p>
-
-      <div class="data">18/07 - História</div>
-      <p>Assunto: Segunda Guerra Mundial</p>
-
+      <div class="card">
+        <h2>16/07 - Matemática</h2>
+        <p>Assunto: Equações do 2º grau</p>
+      </div>
+      <div class="card">
+        <h2>18/07 - História</h2>
+        <p>Assunto: Segunda Guerra Mundial</p>
+      </div>
       <button class="btn voltar" onclick="mudarTela('inicial')">← Voltar</button>
-    </div>
+    </section>
 
-    <div class="tela" id="tela-assuntos">
+    <section class="tela" id="tela-assuntos">
       <h1>Assuntos por Matéria</h1>
       <ul>
         <li><strong>Português:</strong> Figuras de Linguagem</li>
@@ -41,9 +68,9 @@
         <li><strong>Geografia:</strong> Climas do Brasil</li>
       </ul>
       <button class="btn voltar" onclick="mudarTela('inicial')">← Voltar</button>
-    </div>
+    </section>
 
-    <div class="tela" id="tela-anexos">
+    <section class="tela" id="tela-anexos">
       <h1>Anexos</h1>
       <ul>
         <li><a href="#">PDF - Aula de História</a></li>
@@ -51,9 +78,9 @@
         <li><a href="#">PDF - Tabela Periódica</a></li>
       </ul>
       <button class="btn voltar" onclick="mudarTela('inicial')">← Voltar</button>
-    </div>
+    </section>
 
-    <div class="tela" id="tela-professores">
+    <section class="tela" id="tela-professores">
       <h1>Professores</h1>
       <ul>
         <li>Prof. Marcus - Matemática</li>
@@ -61,24 +88,25 @@
         <li>Prof. Rosane - Português</li>
       </ul>
       <button class="btn voltar" onclick="mudarTela('inicial')">← Voltar</button>
-    </div>
-  </div>
+    </section>
+  </main>
 
   <script>
     function mudarTela(telaId) {
       const telas = document.querySelectorAll('.tela');
-      telas.forEach(tela => {
-        tela.classList.remove('ativo');
-        tela.style.opacity = 0;
-        tela.style.transform = 'translateY(20px)';
-      });
+      telas.forEach(tela => tela.classList.remove('ativo'));
+      document.getElementById(`tela-${telaId}`).classList.add('ativo');
+    }
 
-      const novaTela = document.getElementById(`tela-${telaId}`);
-      setTimeout(() => {
-        novaTela.classList.add('ativo');
-        novaTela.style.opacity = 1;
-        novaTela.style.transform = 'translateY(0)';
-      }, 100);
+    function entrar() {
+      const curso = document.getElementById('curso').value;
+      const ano = document.getElementById('ano').value;
+      if (!curso || !ano) {
+        alert('Por favor, selecione o curso e o ano.');
+        return;
+      }
+      document.getElementById('info-aluno').textContent = ano + ' - ' + curso;
+      mudarTela('inicial');
     }
   </script>
 </body>
